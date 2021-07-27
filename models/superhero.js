@@ -40,6 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       originDescription: {
         field: 'origin_description',
         type: DataTypes.STRING(512),
+        allowNull: true,
       },
       catchPhrase: {
         field: 'catch_phrase',
