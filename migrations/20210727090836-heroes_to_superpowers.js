@@ -41,12 +41,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      indexes: [
-        {
-          unique: true,
-          fields: ['power_id', 'hero_id'],
-        },
-      ],
+      // indexes: [
+      //   {
+      //     unique: true,
+      //     fields: ['power_id', 'hero_id'],
+      //   },
+      // ],
     });
   },
   down: async (queryInterface, Sequelize) => {
