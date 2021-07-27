@@ -23,7 +23,11 @@ superheroRouter.post(
 );
 // userRouter.get('/', paginate, UserController.getAllUsers);
 // userRouter.get('/:id', UserController.getUser);
-// userRouter.patch('/:id', UserController.updateUser);
-// userRouter.delete('/:id', UserController.deleteUser);
+superheroRouter.patch(
+  '/:id',
+  upload.array('images', 5),
+  SuperheroController.updateSuperhero
+);
+superheroRouter.delete('/:id', SuperheroController.deleteSuperhero);
 
 module.exports = superheroRouter;
