@@ -12,6 +12,12 @@ module.exports = {
         field: 'hero_id',
         allowNull: false,
         type: Sequelize.INTEGER,
+        references: {
+          model: 'superheroes',
+          key: 'id',
+        },
+        onDelete: 'cascade',
+        onUpdate: 'restrict',
       },
       imagePath: {
         field: 'image_path',
