@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  superhero.init(
+  Superhero.init(
     {
       nickName: {
         field: 'nick_name',

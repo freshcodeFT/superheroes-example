@@ -1,5 +1,5 @@
 const { Router } = require('express');
-// const UserController = require('../controller/user.controller.js');
+const SuperheroController = require('../controllers/superhero.controller.js');
 // const paginate = require('../middlewares/paginate.mw');
 
 const superheroRouter = Router();

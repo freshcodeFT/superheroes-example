@@ -1,11 +1,11 @@
 const { Router } = require('express');
-// const userRouter = require('./user');
+const superheroRouter = require('./superhero');
 // const taskRouter = require('./task');
 // const groupRouter = require('./group');
 
 const router = Router();
 
-// router.use('/users', userRouter);
+router.use('/users', superheroRouter);
 // router.use('/tasks', taskRouter);
 // router.use('/groups', groupRouter);
 
