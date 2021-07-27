@@ -1,0 +1,13 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "fm_sequelize",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "seederStorage": "json",
+    "migrationStorage": "json"
+  },
+  "test": {},
+  "production": {}
+}
