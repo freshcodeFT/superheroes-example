@@ -5,7 +5,7 @@ const superheroRouter = require('./superhero');
 
 const router = Router();
 
-router.use('/users', superheroRouter);
+router.use('/superheroes', superheroRouter);
 // router.use('/tasks', taskRouter);
 // router.use('/groups', groupRouter);
 
