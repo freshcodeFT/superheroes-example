@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('SuperPowers', {
+    await queryInterface.createTable('superpowers', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,22 +9,28 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       heroId: {
-        type: Sequelize.INTEGER
+        field: 'hero_id',
+        allowNull: false,
+        type: Sequelize.INTEGER,
       },
-      superPower: {
-        type: Sequelize.STRING
+      superpower: {
+        field: 'superpower',
+        allowNull: false,
+        type: Sequelize.STRING(64)
       },
       createdAt: {
+        field: 'created_at',
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
+        field: 'updated_at',
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('SuperPowers');
+    await queryInterface.dropTable('superpowers');
   }
 };
