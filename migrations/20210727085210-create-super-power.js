@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       heroId: {
         field: 'hero_id',
@@ -16,7 +16,8 @@ module.exports = {
       superpower: {
         field: 'superpower',
         allowNull: false,
-        type: Sequelize.STRING(64)
+        type: Sequelize.STRING(64),
+        unique: true,
       },
       createdAt: {
         field: 'created_at',
@@ -32,5 +33,5 @@ module.exports = {
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('superpowers');
-  }
+  },
 };

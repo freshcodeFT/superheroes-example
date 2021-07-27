@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  SuperPower.init(
+  Superpower.init(
     {
       heroId: {
         field: 'hero_id',
