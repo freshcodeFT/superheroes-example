@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/EvgenStr/superheroes-crud/issues"
   },
-  "homepage": "https://github.com/EvgenStr/superheroes-crud#readme"
+  "homepage": "https://github.com/EvgenStr/superheroes-crud#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
