@@ -6,10 +6,27 @@ module.exports.createSuperhero = async (req, res, next) => {
     const { body, files } = req;
 
     const createdHero = await Superhero.create(body);
-    // console.log(createdUser);
-    res.status(201).send({
-      data: createdHero,
+
+    files.forEach(async file => {
+      await createdHero.createImage({
+        imagePath: file.filename,
+      });
     });
+    const images = files.map(file => file.filename); //???
+
+    res.status(201).send({
+      data: { createdHero, images },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+module.exports.updateSuperhero = async (req, res, next) => {
+  try {
+    const {
+      params: { id },
+      body, files
+    } = req;
   } catch (err) {
     next(err);
   }
