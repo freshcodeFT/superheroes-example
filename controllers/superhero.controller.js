@@ -14,22 +14,30 @@ const { STATIC_PATH } = require('../config/config');
 module.exports.createSuperhero = async (req, res, next) => {
   try {
     const { body, files } = req;
-
     const createdHero = await Superhero.create(body);
 
-    //bulkinsert
-    const images = await Promise.all(
-      files.map(async file => {
-        await createdHero.createImage(
-          {
-            imagePath: file.filename,
-          },
-          { returning: ['image_path'] }
-        );
-        return file.filename;
-      })
-    );
-    // console.log(body.superpowers);
+    // const images = await Promise.all(
+    //   files.map(async file => {
+    //     await createdHero.createImage(
+    //       {
+    //         imagePath: file.filename,
+    //       },
+    //       { returning: ['image_path'] }
+    //     );
+    //     return file.filename;
+    //   })
+    // );
+
+    const images = files.map(file => {
+      return {
+        hero_id: createdHero.id,
+        image_path: file.filename,
+        created_at: new Date(),
+        updated_at: new Date(),
+      };
+    });
+    await queryInterface.bulkInsert('images', images, {});
+
     const powers = await Superpower.findAll({
       where: {
         id: {
@@ -37,7 +45,7 @@ module.exports.createSuperhero = async (req, res, next) => {
         },
       },
     });
-    const bulk = powers.map(power => {
+    const powersArr = powers.map(power => {
       console.log(power.dataValues.id, 'power id');
       return {
         power_id: power.dataValues.id,
@@ -46,19 +54,11 @@ module.exports.createSuperhero = async (req, res, next) => {
         updated_at: new Date(),
       };
     });
-    console.log(bulk, 'powers');
-    await queryInterface.bulkInsert('heroes_to_superpowers', bulk, {});
 
-    // body.superpowers.forEach(async power => {
-    //   const superpower = await Superpower.findByPk(power);
-    //   if(superpower){
-    //     await superpower.addSuperhero(createdHero);
-    //   }
-    // });
+    await queryInterface.bulkInsert('heroes_to_superpowers', powersArr, {});
 
     res.status(201).send({
-      data: { createdHero, images, bulk },
-      // data:bulk
+      data: { createdHero, images, powersArr },
     });
   } catch (err) {
     next(err);
@@ -77,6 +77,7 @@ module.exports.updateSuperhero = async (req, res, next) => {
       where: { id },
       returning: true,
     });
+
     const images = await Promise.all(
       files.map(async file => {
         await Hero.createImage(
@@ -120,8 +121,7 @@ module.exports.deleteSuperhero = async (req, res, next) => {
     images.forEach(image => {
       const imagePath = image.dataValues.image_path;
       try {
-        //asyncdelete
-        fs.unlinkSync(path.resolve(STATIC_PATH, 'images', imagePath));
+        fs.unlink(path.resolve(STATIC_PATH, 'images', imagePath));
       } catch (err) {}
     });
 
