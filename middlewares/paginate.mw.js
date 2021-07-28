@@ -4,7 +4,7 @@ module.exports = async (req, res, next) => {
       query: { limit = 5, offset = 0 },
     } = req;
     req.pagination = {
-      limit: limit > 5 || limit <= 0 ? 5 : limit,
+      limit: parseInt(limit > 4 || limit <= 0 ? 5 : limit),
       offset: offset < 0 ? 0 : offset,
     };
     next();
