@@ -1,12 +1,10 @@
 const { Router } = require('express');
 const superheroRouter = require('./superhero');
-// const taskRouter = require('./task');
-// const groupRouter = require('./group');
+const superpowerRouter = require('./superpower');
 
 const router = Router();
 
 router.use('/superheroes', superheroRouter);
-// router.use('/tasks', taskRouter);
-// router.use('/groups', groupRouter);
+router.use('/superpowers', superpowerRouter);
 
 module.exports = router;
