@@ -41,15 +41,18 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      // indexes: [
-      //   {
-      //     unique: true,
-      //     fields: ['power_id', 'hero_id'],
-      //   },
-      // ],
+    });
+    await queryInterface.addConstraint('heroes_to_superpowers', {
+      type: 'UNIQUE',
+      fields: ['hero_id', 'power_id'],
+      name: 'unique_hero_power',
     });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('heroes_to_superpowers');
+    await queryInterface.removeConstraint(
+      'heroes_to_superpowers',
+      'unique_hero_power'
+    );
   },
 };

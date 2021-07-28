@@ -17,21 +17,8 @@ module.exports.createSuperhero = async (req, res, next) => {
     const createdHero = await Superhero.create(body);
     let images = [];
     let powersArr = [];
-    // const images = await Promise.all(
-    //   files.map(async file => {
-    //     await createdHero.createImage(
-    //       {
-    //         imagePath: file.filename,
-    //       },
-    //       { returning: ['image_path'] }
-    //     );
-    //     return file.filename;
-    //   })
-    // );
 
-    // console.log(files, 'files');
     if (files.length) {
-      // console.log(files, 'files');
       images = files.map(file => {
         return {
           hero_id: createdHero.id,
@@ -51,7 +38,7 @@ module.exports.createSuperhero = async (req, res, next) => {
           },
         },
       });
-      // console.log(powers, 'powers');
+
       powersArr = powers.map(power => {
         return {
           power_id: power.dataValues.id,
@@ -76,45 +63,53 @@ module.exports.updateSuperhero = async (req, res, next) => {
     const {
       params: { id },
       body,
-      files,
+      files = [],
     } = req;
+    let images = [];
+    let powersArr = [];
 
-    const Hero = await Superhero.findByPk(id);
     const [rowsCount, updatedSuperhero] = await Superhero.update(body, {
       where: { id },
       returning: true,
     });
 
-    const images = files.map(file => {
-      return {
-        hero_id: createdHero.id,
-        image_path: file.filename,
-        created_at: new Date(),
-        updated_at: new Date(),
-      };
-    });
-    await queryInterface.bulkInsert('images', images, {});
+    if (rowsCount !== 1) {
+      return next(createError(400, "User can't be updated"));
+    }
 
-    // const images = await Promise.all(
-    //   files.map(async file => {
-    //     await Hero.createImage(
-    //       {
-    //         imagePath: file.filename,
-    //       },
-    //       { returning: ['image_path'] }
-    //     );
-    //     return file.filename;
-    //   })
-    // );
-    body.superpowers.forEach(async power => {
-      const superpower = await Superpower.findByPk(power);
-      if (superpower) {
-        await superpower.addSuperhero(createdHero);
-      }
-    });
+    if (files.length) {
+      images = files.map(file => {
+        return {
+          hero_id: id,
+          image_path: file.filename,
+          created_at: new Date(),
+          updated_at: new Date(),
+        };
+      });
+      await queryInterface.bulkInsert('images', images, {});
+    }
+
+    if (body.superpowers) {
+      const powers = await Superpower.findAll({
+        where: {
+          id: {
+            [Op.in]: body.superpowers,
+          },
+        },
+      });
+      powersArr = powers.map(power => {
+        return {
+          power_id: power.dataValues.id,
+          hero_id: id,
+          created_at: new Date(),
+          updated_at: new Date(),
+        };
+      });
+      await queryInterface.bulkInsert('heroes_to_superpowers', powersArr, {});
+    }
 
     res.status(200).send({
-      data: { updatedSuperhero, images },
+      data: { updatedSuperhero, images, powersArr },
     });
   } catch (err) {
     next(err);
