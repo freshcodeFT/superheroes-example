@@ -3,7 +3,7 @@ const SuperheroController = require('../controllers/superhero.controller.js');
 const multer = require('multer');
 const path = require('path');
 const { STATIC_PATH } = require('../config/config');
-// const paginate = require('../middlewares/paginate.mw');
+const paginate = require('../middlewares/paginate.mw');
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.resolve(STATIC_PATH, 'images'));
@@ -21,7 +21,7 @@ superheroRouter.post(
   upload.array('images', 5),
   SuperheroController.createSuperhero
 );
-// userRouter.get('/', paginate, UserController.getAllUsers);
+superheroRouter.get('/', paginate, SuperheroController.getAllSuperheroes);
 // userRouter.get('/:id', UserController.getUser);
 superheroRouter.patch(
   '/:id',
