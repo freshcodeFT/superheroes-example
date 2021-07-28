@@ -16,14 +16,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   Superpower.init(
     {
-      heroId: {
-        field: 'hero_id',
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-          notNull: true,
-        },
-      },
       superPower: {
         field: 'superpower',
         allowNull: false,
