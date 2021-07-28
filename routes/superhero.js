@@ -21,8 +21,11 @@ superheroRouter.post(
   upload.array('images', 5),
   SuperheroController.createSuperhero
 );
+
 superheroRouter.get('/', paginate, SuperheroController.getAllSuperheroes);
-// userRouter.get('/:id', UserController.getUser);
+
+// superheroRouter.get('/:id', SuperheroController.getSuperhero);
+
 superheroRouter.patch(
   '/:id',
   upload.array('images', 5),
