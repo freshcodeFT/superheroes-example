@@ -1,4 +1,4 @@
-const { Superhero, Image } = require('../models');
+const { Superhero, Image, Superpower } = require('../models');
 const createError = require('http-errors');
 const fs = require('fs');
 const path = require('path');
@@ -20,6 +20,13 @@ module.exports.createSuperhero = async (req, res, next) => {
         return file.filename;
       })
     );
+    console.log(body.superpowers);
+    body.superpowers.forEach(async power => {
+      const superpower = await Superpower.findByPk(power);
+      await superpower.addSuperhero(createdHero);
+    });
+    // const superpower = await Superpower.findByPk(body.superpower);
+    // await superpower.addSuperhero(createdHero);
 
     res.status(201).send({
       data: { createdHero, images },
