@@ -11,6 +11,9 @@ const createError = require('http-errors');
 const fs = require('fs');
 const path = require('path');
 const { STATIC_PATH } = require('../config/config');
+
+/* CREATE */
+
 module.exports.createSuperhero = async (req, res, next) => {
   try {
     const { body, files = [] } = req;
@@ -57,6 +60,8 @@ module.exports.createSuperhero = async (req, res, next) => {
     next(err);
   }
 };
+
+/* UPDATE */
 
 module.exports.updateSuperhero = async (req, res, next) => {
   try {
@@ -116,6 +121,8 @@ module.exports.updateSuperhero = async (req, res, next) => {
   }
 };
 
+/* DELETE */
+
 module.exports.deleteSuperhero = async (req, res, next) => {
   try {
     const {
@@ -126,9 +133,6 @@ module.exports.deleteSuperhero = async (req, res, next) => {
       where: { heroId: id },
       attributes: ['image_path'],
     });
-
-    // const del = await Superhero.findByPk(id);
-    // await del.removeImages(id)
 
     images.forEach(image => {
       const imagePath = image.dataValues.image_path;
@@ -151,19 +155,11 @@ module.exports.deleteSuperhero = async (req, res, next) => {
   }
 };
 
+/* GET ALL */
+
 module.exports.getAllSuperheroes = async (req, res, next) => {
   try {
     const { pagination = {} } = req;
-    const {
-      count: rowsCount,
-      rows: superheroes,
-    } = await Superhero.findAndCountAll({
-      ...pagination,
-    });
-    if (rowsCount === 0) {
-      const err = createError(404, 'Superheroes not found');
-      return next(err);
-    }
 
     const HeroesWithImgsAndPowers = await Superhero.findAll({
       include: [
@@ -176,6 +172,8 @@ module.exports.getAllSuperheroes = async (req, res, next) => {
         },
         { model: Image, attributes: ['image_path'] },
       ],
+      ...pagination,
+      // return 6 heroes!
     });
 
     res.status(200).send({
