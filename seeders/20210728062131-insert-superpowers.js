@@ -5,7 +5,11 @@ module.exports = {
     await queryInterface.bulkInsert(
       'superpowers',
       [
-        { superpower: 'sleep-test', created_at: new Date(), updated_at: new Date() },
+        {
+          superpower: 'sleep-test',
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
         { superpower: 'eat', created_at: new Date(), updated_at: new Date() },
         { superpower: 'fly', created_at: new Date(), updated_at: new Date() },
       ],

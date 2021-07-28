@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-            superpower: {
+      superpower: {
         field: 'superpower',
         allowNull: false,
         type: Sequelize.STRING(64),
