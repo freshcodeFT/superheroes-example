@@ -1,6 +1,6 @@
 const { Superpower } = require('../models');
 const createError = require('http-errors');
-
+/* CREATE */
 module.exports.createSuperpower = async (req, res, next) => {
   try {
     const { body } = req;
@@ -14,7 +14,7 @@ module.exports.createSuperpower = async (req, res, next) => {
     next(err);
   }
 };
-
+/* UPDATE */
 module.exports.updateSuperpower = async (req, res, next) => {
   try {
     const {
@@ -29,12 +29,27 @@ module.exports.updateSuperpower = async (req, res, next) => {
     });
 
     if (rowsCount !== 1) {
-      return next(createError(400, "Task can't be updated"));
+      return next(createError(400, "Superpower can't be updated"));
     }
 
     res.send({
       data: updatedSuperpower,
     });
+  } catch (err) {
+    next(err);
+  }
+};
+/* DELETE */
+module.exports.deleteSuperpower = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const rowsCount = await Superpower.destroy({
+      where: { id },
+    });
+    if (rowsCount !== 1) {
+      return next(createError(404, 'Superpower not found'));
+    }
+    res.send({ data: rowsCount });
   } catch (err) {
     next(err);
   }
