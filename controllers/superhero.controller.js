@@ -155,7 +155,7 @@ module.exports.deleteSuperhero = async (req, res, next) => {
   }
 };
 
-/* GET ALL */
+/* GET ALL SUPERHEROES */
 
 module.exports.getAllSuperheroes = async (req, res, next) => {
   try {
@@ -179,6 +179,25 @@ module.exports.getAllSuperheroes = async (req, res, next) => {
     res.status(200).send({
       data: HeroesWithImgsAndPowers,
     });
+  } catch (err) {
+    next(err);
+  }
+};
+
+/* GET SUPERHERO */
+
+module.exports.getSuperhero = async (req, res, next) => {
+  try {
+    const {
+      params: { id },
+    } = req;
+
+    const hero = await Superhero.findByPk(id);
+    if (!hero) {
+      const err = createError(404, 'Superhero not found');
+      return next(err);
+    }
+    res.send(hero);
   } catch (err) {
     next(err);
   }

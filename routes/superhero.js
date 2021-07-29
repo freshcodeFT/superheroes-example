@@ -24,7 +24,7 @@ superheroRouter.post(
 
 superheroRouter.get('/', paginate, SuperheroController.getAllSuperheroes);
 
-// superheroRouter.get('/:id', SuperheroController.getSuperhero);
+superheroRouter.get('/:id', SuperheroController.getSuperhero);
 
 superheroRouter.patch(
   '/:id',
