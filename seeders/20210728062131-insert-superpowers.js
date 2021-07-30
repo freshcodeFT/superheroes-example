@@ -6,12 +6,12 @@ module.exports = {
       'superpowers',
       [
         {
-          superpower: 'sleep-test',
+          name: 'sleep-test',
           created_at: new Date(),
           updated_at: new Date(),
         },
-        { superpower: 'eat', created_at: new Date(), updated_at: new Date() },
-        { superpower: 'fly', created_at: new Date(), updated_at: new Date() },
+        { name: 'eat', created_at: new Date(), updated_at: new Date() },
+        { name: 'fly', created_at: new Date(), updated_at: new Date() },
       ],
       {}
     );

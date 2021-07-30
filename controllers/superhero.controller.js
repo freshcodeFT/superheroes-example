@@ -1,16 +1,10 @@
-const {
-  Superhero,
-  Image,
-  Superpower,
-  Sequelize,
-  sequelize,
-} = require('../models');
 const { Op } = require('sequelize');
-const queryInterface = sequelize.getQueryInterface();
 const createError = require('http-errors');
 const fs = require('fs');
 const path = require('path');
 const { STATIC_PATH } = require('../config/config');
+const { Superhero, Image, Superpower, sequelize } = require('../models');
+const queryInterface = sequelize.getQueryInterface();
 
 /* CREATE */
 
@@ -34,15 +28,13 @@ module.exports.createSuperhero = async (req, res, next) => {
     }
 
     if (body.superpowers) {
-      const powers = await Superpower.findAll({
+      powersArr = await Superpower.findAll({
         where: {
           id: {
             [Op.in]: body.superpowers,
           },
         },
-      });
-
-      powersArr = powers.map(power => {
+      }).map(power => {
         return {
           power_id: power.dataValues.id,
           hero_id: createdHero.id,

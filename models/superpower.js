@@ -14,10 +14,11 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
+  
   Superpower.init(
     {
-      superpower: {
-        field: 'superpower',
+      name: {
+        field: 'name',
         allowNull: false,
         type: DataTypes.STRING(64),
         validate: {

@@ -1,36 +1,19 @@
 const { Router } = require('express');
 const SuperheroController = require('../controllers/superhero.controller.js');
-const multer = require('multer');
-const path = require('path');
-const { STATIC_PATH } = require('../config/config');
 const paginate = require('../middlewares/paginate.mw');
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.resolve(STATIC_PATH, 'images'));
-  },
-  filename: function (req, file, cb) {
-    cb(null, `${Date.now()}.${file.originalname}`);
-  },
-});
-const upload = multer({ storage });
+const { uploadImages } = require('../middlewares/file.upload');
 
 const superheroRouter = Router();
 
-superheroRouter.post(
-  '/',
-  upload.array('images', 5),
-  SuperheroController.createSuperhero
-);
+superheroRouter
+  .route('/')
+  .post(uploadImages, SuperheroController.createSuperhero)
+  .get(paginate, SuperheroController.getAllSuperheroes);
 
-superheroRouter.get('/', paginate, SuperheroController.getAllSuperheroes);
-
-superheroRouter.get('/:id', SuperheroController.getSuperhero);
-
-superheroRouter.patch(
-  '/:id',
-  upload.array('images', 5),
-  SuperheroController.updateSuperhero
-);
-superheroRouter.delete('/:id', SuperheroController.deleteSuperhero);
+superheroRouter
+  .route('/:id')
+  .get(SuperheroController.getSuperhero)
+  .patch(uploadImages, SuperheroController.updateSuperhero)
+  .delete(SuperheroController.deleteSuperhero);
 
 module.exports = superheroRouter;
